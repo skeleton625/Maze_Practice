@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class Maze
 {
@@ -18,9 +19,9 @@ public class Maze
         Grid = new char[Rows, Cols];
 
         // 2차원 배열(리스트)를 모두 벽 Type으로 초기화
-        for(int i = 0; i < _row; i++)
+        for(int i = 0; i < Rows; i++)
         {
-            for (int j = 0; j < _col; j++)
+            for (int j = 0; j < Cols; j++)
                 Grid[i, j] = '#';
         }
 
@@ -38,8 +39,8 @@ public class Maze
         // 주변의 이웃 Cell들을 찾음
         for(int i = 0; i < 4; i++)
         {
-            _nrow = _cell.Row;
-            _ncol = _cell.Col;
+            _nrow = _cell.Row + offset[i, 0];
+            _ncol = _cell.Col + offset[i, 1];
 
             bool validFloor = (_type.Equals(CELL_T.FLOOR) && IsPathable(_nrow, _ncol));
             bool validWall = (_type.Equals(CELL_T.WALL) && IsWall(_nrow, _ncol));
@@ -49,6 +50,11 @@ public class Maze
 
         // 찾은 이웃 Cell 리스트를 반환
         return _neighbors;
+    }
+
+    public char[,] GetMazeMap()
+    {
+        return Grid;
     }
 
     public ref char At(int r, int c)
