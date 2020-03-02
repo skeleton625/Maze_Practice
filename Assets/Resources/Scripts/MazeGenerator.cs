@@ -11,7 +11,7 @@ public class MazeGenerator
         Cols = (c % 2) == 1 ? c : c - 1;
     }
 
-    public void Prims(Maze _maze)
+    public void Prims(Maze _maze, int _row, int _col)
     {
         // 시작 Cell 정의 및 _maze 시작부 초기화
         Cell start = new Cell(0, 0, null);
@@ -50,6 +50,6 @@ public class MazeGenerator
             }
         }
 
-        _maze.At(Rows - 1, Cols - 1) = 'E';
+        _maze.At(_row - 1, _col - 1) = 'E';
     }
 }
