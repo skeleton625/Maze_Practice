@@ -36,13 +36,17 @@ public class GeneratorDriver : MonoBehaviour
         switch(_type)
         {
             case 0:
-                Generator.Prims(_maze, Row, Col);
+                Generator.Prims(_maze);
+                GeneratePrimsMaze(_maze.GetMazeMap(), Row, Col);
+                break;
+            case 1:
                 break;
             default:
                 break;
         }
 
-        GenerateMaze(_maze.GetMazeMap(), Row, Col);
+        // 주변 미로 벽 출력
+        GenerateSideBlock(Row, Col);
     }
 
     private void RemoveCurrentField()
@@ -54,10 +58,32 @@ public class GeneratorDriver : MonoBehaviour
         }
     }
 
-    private void GenerateMaze(char[,] _grid, int _row, int _col)
+    private void GeneratePrimsMaze(int[,] _grid, int _row, int _col)
+    {
+        float _x = 3f, _z = 3f;
+        GameObject _clone;
+
+        // 생성된 미로 출력
+        for (int i = 0; i < _row; i++)
+        {
+            for(int j = 0; j < _col; j++)
+            {
+                if(_grid[i,j] == -1)
+                {
+                    _clone = Instantiate(Block, CurrentField.transform);
+                    _clone.transform.position = new Vector3(_x, 1, _z);
+                }
+                _x += 2f;
+            }
+            _x = 3;
+            _z += 2f;
+        }
+    }
+
+    private void GenerateSideBlock(int _row, int _col)
     {
         float _x = 1f, _z = 1f;
-        float _lastX = 2 * _col+3, _lastZ = 2 * _row +3;
+        float _lastX = 2 * _col + 3, _lastZ = 2 * _row + 3;
         GameObject _clone1, _clone2;
 
         // 사이드 벽 채우기
@@ -82,30 +108,13 @@ public class GeneratorDriver : MonoBehaviour
             _clone2.transform.position = new Vector3(_x, 1, _lastZ);
             _x += 2f;
         }
-        
+
         // 빈 벽 채우기
         _clone1 = Instantiate(Block, CurrentField.transform);
         _clone2 = Instantiate(Block, CurrentField.transform);
         _clone1.name = "SideWall";
         _clone2.name = "SideWall";
-        _clone1.transform.position = new Vector3(1, 1, _lastZ-2f);
-        _clone2.transform.position = new Vector3(_lastX-2f, 1, 1);
-        _x = _z = 3f;
-
-        // 생성된 미로 출력
-        for (int i = 0; i < _row; i++)
-        {
-            for(int j = 0; j < _col; j++)
-            {
-                if(_grid[i,j] == '#')
-                {
-                    _clone1 = Instantiate(Block, CurrentField.transform);
-                    _clone1.transform.position = new Vector3(_x, 1, _z);
-                }
-                _x += 2f;
-            }
-            _x = 3;
-            _z += 2f;
-        }
+        _clone1.transform.position = new Vector3(1, 1, _lastZ - 2f);
+        _clone2.transform.position = new Vector3(_lastX - 2f, 1, 1);
     }
 }
