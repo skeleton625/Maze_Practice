@@ -5,17 +5,20 @@ using UnityEngine;
 public class MazeGenerator
 {
     private int Rows, Cols;
+    private Maze PreMaze;
     public MazeGenerator(int r, int c)
     {
         Rows = (r % 2) == 1 ? r : r - 1;
         Cols = (c % 2) == 1 ? c : c - 1;
     }
 
-    public void Prims(Maze _maze, int _row, int _col)
+    // '#' : -1, ' ' : 0, 'S' : 1, 'E' : 2, 'V' : 3
+    public void Prims(Maze _maze)
     {
+        PreMaze = _maze;
         // 시작 Cell 정의 및 _maze 시작부 초기화
         Cell start = new Cell(0, 0, null);
-        _maze.At(start.Row, start.Col) = 'S';
+        PreMaze.At(start.Row, start.Col) = 1;
 
         // 시작 Cell의 이웃 Cell 정의 및 리스트에 추가
         List<Cell> _frontier = new List<Cell>();
@@ -24,7 +27,7 @@ public class MazeGenerator
 
         Cell _child, _gc;
 
-        while(_frontier.Count > 0)
+        while (_frontier.Count > 0)
         {
             // 리스트 내 랜덤 좌표를 자식으로 정의 및 _frontier 리스트에서 제거
             int rand_p = Random.Range(0, _frontier.Count);
@@ -37,19 +40,19 @@ public class MazeGenerator
             int _c = _gc.Col;
 
             // 선택된 자식 Cell의 좌표가 벽인지, 방문한 적 없을 경우
-            if(_maze.IsValid(_r, _c) && _maze.At(_r, _c).Equals('#'))
+            if (PreMaze.IsValid(_r, _c) && PreMaze.At(_r, _c).Equals(-1))
             {
-                _maze.At(_child.Row, _child.Col) = ' ';
-                _maze.At(_r, _c) = 'E';
+                PreMaze.At(_child.Row, _child.Col) = 0;
+                PreMaze.At(_r, _c) = 2;
 
-                List<Cell> _neighbors = _maze.GetNeighbors(_gc, Maze.CELL_T.WALL);
+                List<Cell> _neighbors = PreMaze.GetNeighbors(_gc, Maze.CELL_T.WALL);
                 foreach (Cell _cell in _neighbors)
                     _frontier.Add(_cell);
 
-                _maze.At(_r, _c) = ' ';
+                PreMaze.At(_r, _c) = 0;
             }
         }
 
-        _maze.At(_row - 1, _col - 1) = 'E';
+        PreMaze.At(Rows - 1, Cols - 1) = 2;
     }
 }
