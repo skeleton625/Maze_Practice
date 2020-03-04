@@ -10,7 +10,6 @@ public class GeneratorDriver : MonoBehaviour
     private GameObject Block;
     [SerializeField]
     private int Row, Col;
-    private MazeGenerator Generator;
 
     private GameObject CurrentField;
     public static GeneratorDriver instance;
@@ -20,31 +19,33 @@ public class GeneratorDriver : MonoBehaviour
         instance = this;
     }
 
-    // Start is called before the first frame update
     private void Start()
     {
         CurrentField = Instantiate(MazeField, Vector3.zero, Quaternion.identity);
-        Generator = new MazeGenerator(Row, Col);
     }
 
     public void ChooseGeneratingMaze(int _type)
     {
+        // 현재 생성된 미로를 제거
         RemoveCurrentField();
-        Maze _maze = new Maze(Row, Col);
+        MazeGenerator Generator = null;
 
         // 원하는 미로 알고리즘으로 미로 설계도 생성
         switch(_type)
         {
             case 0:
-                Generator.Prims(_maze);
-                GeneratePrimsMaze(_maze.GetMazeMap(), Row, Col);
+                PrimMaze _prim = new PrimMaze(Row, Col, '#');
+                Generator = new Prims(Row, Col, Block, CurrentField.transform, _prim);
                 break;
             case 1:
                 break;
             default:
+                _prim = new PrimMaze(0, 0, '#');
+                Generator = new Prims(0, 0, Block, CurrentField.transform, _prim);
                 break;
         }
-
+        Generator.AlgorithmStart();
+        Generator.GenerateMaze();
         // 주변 미로 벽 출력
         GenerateSideBlock(Row, Col);
     }
@@ -55,28 +56,6 @@ public class GeneratorDriver : MonoBehaviour
         {
             Destroy(CurrentField);
             CurrentField = Instantiate(MazeField, Vector3.zero, Quaternion.identity);
-        }
-    }
-
-    private void GeneratePrimsMaze(int[,] _grid, int _row, int _col)
-    {
-        float _x = 3f, _z = 3f;
-        GameObject _clone;
-
-        // 생성된 미로 출력
-        for (int i = 0; i < _row; i++)
-        {
-            for(int j = 0; j < _col; j++)
-            {
-                if(_grid[i,j] == -1)
-                {
-                    _clone = Instantiate(Block, CurrentField.transform);
-                    _clone.transform.position = new Vector3(_x, 1, _z);
-                }
-                _x += 2f;
-            }
-            _x = 3;
-            _z += 2f;
         }
     }
 
