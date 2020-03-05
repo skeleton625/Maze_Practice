@@ -9,6 +9,8 @@ public class GeneratorDriver : MonoBehaviour
     [SerializeField]
     private GameObject Block;
     [SerializeField]
+    private GameObject SlimBlock;
+    [SerializeField]
     private int Row, Col;
 
     private GameObject CurrentField;
@@ -34,13 +36,15 @@ public class GeneratorDriver : MonoBehaviour
         switch(_type)
         {
             case 0:
-                PrimMaze _prim = new PrimMaze(Row, Col, '#');
+                PrimMaze _prim = new PrimMaze(Row, Col);
                 Generator = new Prims(Row, Col, Block, CurrentField.transform, _prim);
                 break;
             case 1:
+                HKMaze _huntandkill = new HKMaze(Row, Col);
+                Generator = new HuntandKill(Row, Col, SlimBlock, CurrentField.transform, _huntandkill);
                 break;
             default:
-                _prim = new PrimMaze(0, 0, '#');
+                _prim = new PrimMaze(0, 0);
                 Generator = new Prims(0, 0, Block, CurrentField.transform, _prim);
                 break;
         }
