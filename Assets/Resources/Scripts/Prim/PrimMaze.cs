@@ -2,8 +2,16 @@
 
 public class PrimMaze : Maze<char, PrimCell>
 {
-    public PrimMaze(int _row, int _col, char _init) :
-        base(_row, _col, _init) { }
+    public PrimMaze(int _row, int _col) :
+        base(_row, _col)
+    {
+        // 2차원 배열(리스트)를 모두 벽 Type으로 초기화
+        for (int i = 0; i < Rows; i++)
+        {
+            for (int j = 0; j < Cols; j++)
+                Grid[i, j] = '#';
+        }
+    }
 
     public override List<PrimCell> GetNeighbors(PrimCell _cell, bool _wall)
     {
