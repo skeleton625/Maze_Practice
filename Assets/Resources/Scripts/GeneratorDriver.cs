@@ -10,10 +10,10 @@ public class GeneratorDriver : MonoBehaviour
     private GameObject Block;
     [SerializeField]
     private GameObject SlimBlock;
-    [SerializeField]
-    private int Row, Col;
 
+    private int Row, Col;
     private GameObject CurrentField;
+    private UIController UControl;
     public static GeneratorDriver instance;
 
     private void Awake()
@@ -23,11 +23,14 @@ public class GeneratorDriver : MonoBehaviour
 
     private void Start()
     {
+        UControl = UIController.instance;
         CurrentField = Instantiate(MazeField, Vector3.zero, Quaternion.identity);
     }
 
     public void ChooseGeneratingMaze(int _type)
     {
+        Row = UControl.GetInputFieldRow();
+        Col = UControl.GetInputFieldCol();
         // 현재 생성된 미로를 제거
         RemoveCurrentField();
         MazeGenerator Generator = null;
