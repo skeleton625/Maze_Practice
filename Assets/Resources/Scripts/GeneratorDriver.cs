@@ -10,6 +10,12 @@ public class GeneratorDriver : MonoBehaviour
     private GameObject Block;
     [SerializeField]
     private GameObject SlimBlock;
+    [SerializeField]
+    private GameObject MainCamera;
+    [SerializeField]
+    private GameObject Player;
+    [SerializeField]
+    private bool PlayerMode;
 
     private int Row, Col;
     private GameObject CurrentField;
@@ -31,6 +37,8 @@ public class GeneratorDriver : MonoBehaviour
     {
         Row = UControl.GetInputFieldRow();
         Col = UControl.GetInputFieldCol();
+        Row = (Row % 2) == 1 ? Row : Row - 1;
+        Col = (Col % 2) == 1 ? Col : Col - 1;
         // 현재 생성된 미로를 제거
         RemoveCurrentField();
         MazeGenerator Generator = null;
@@ -55,6 +63,12 @@ public class GeneratorDriver : MonoBehaviour
         Generator.GenerateMaze();
         // 주변 미로 벽 출력
         GenerateSideBlock(Row, Col);
+        if(PlayerMode)
+        {
+            MainCamera.SetActive(false);
+            Player.SetActive(true);
+        }
+
     }
 
     private void RemoveCurrentField()
@@ -68,8 +82,8 @@ public class GeneratorDriver : MonoBehaviour
 
     private void GenerateSideBlock(int _row, int _col)
     {
-        float _x = 1f, _z = 1f;
-        float _lastX = 2 * _col + 3, _lastZ = 2 * _row + 3;
+        float _x = 2f, _z = 2f;
+        float _lastX = 4 * _col + 6, _lastZ = 4 * _row + 6;
         GameObject _clone1, _clone2;
 
         // 사이드 벽 채우기
@@ -79,9 +93,9 @@ public class GeneratorDriver : MonoBehaviour
             _clone2 = Instantiate(Block, CurrentField.transform);
             _clone1.name = "SideWall";
             _clone2.name = "SideWall";
-            _clone1.transform.position = new Vector3(1, 1, _z);
-            _clone2.transform.position = new Vector3(_lastX, 1, _z);
-            _z += 2f;
+            _clone1.transform.position = new Vector3(2, 2, _z);
+            _clone2.transform.position = new Vector3(_lastX, 2, _z);
+            _z += 4f;
         }
 
         for (int i = 0; i < _col; i++)
@@ -90,9 +104,9 @@ public class GeneratorDriver : MonoBehaviour
             _clone2 = Instantiate(Block, CurrentField.transform);
             _clone1.name = "SideWall";
             _clone2.name = "SideWall";
-            _clone1.transform.position = new Vector3(_x, 1, 1);
-            _clone2.transform.position = new Vector3(_x, 1, _lastZ);
-            _x += 2f;
+            _clone1.transform.position = new Vector3(_x, 2, 2);
+            _clone2.transform.position = new Vector3(_x, 2, _lastZ);
+            _x += 4f;
         }
 
         // 빈 벽 채우기
@@ -100,7 +114,7 @@ public class GeneratorDriver : MonoBehaviour
         _clone2 = Instantiate(Block, CurrentField.transform);
         _clone1.name = "SideWall";
         _clone2.name = "SideWall";
-        _clone1.transform.position = new Vector3(1, 1, _lastZ - 2f);
-        _clone2.transform.position = new Vector3(_lastX - 2f, 1, 1);
+        _clone1.transform.position = new Vector3(2, 2, _lastZ - 4f);
+        _clone2.transform.position = new Vector3(_lastX - 4f, 2, 2);
     }
 }
