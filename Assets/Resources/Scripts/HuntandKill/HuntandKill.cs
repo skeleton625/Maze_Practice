@@ -73,7 +73,7 @@ public class HuntandKill : MonoBehaviour, MazeGenerator
 
     public void GenerateMaze()
     {
-        float _x = 3f, _z = 2f;
+        float _x = 6f, _z = 6f;
         GameObject _clone = null;
         HKCell[,] _grid = Hmaze.GetMazeMap();
 
@@ -82,12 +82,12 @@ public class HuntandKill : MonoBehaviour, MazeGenerator
             for(int j = 0; j < Cols; j++)
             {
                 _clone = Instantiate(Block, CurrentField);
-                _clone.transform.position = new Vector3(_x, 1, _z);
+                _clone.transform.position = new Vector3(_x, 2, _z);
                 _clone.GetComponent<BlockController>().SetBlockEnable(_grid[i, j].SidelWall);
-                _x += 2f;
+                _x += 4f;
             }
-            _x = 3;
-            _z += 2f;
+            _x = 6;
+            _z += 4f;
         }
         Destroy(_clone);
     }

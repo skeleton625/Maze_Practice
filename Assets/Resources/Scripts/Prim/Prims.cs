@@ -62,7 +62,7 @@ public class Prims : MonoBehaviour, MazeGenerator
 
     public void GenerateMaze()
     {
-        float _x = 3f, _z = 3f;
+        float _x = 6f, _z = 6f;
         GameObject _clone;
         char[,] _grid = Pmaze.GetMazeMap();
 
@@ -74,12 +74,12 @@ public class Prims : MonoBehaviour, MazeGenerator
                 if (_grid[i, j].Equals('#'))
                 {
                     _clone = Instantiate(Block, CurrentField);
-                    _clone.transform.position = new Vector3(_x, 1, _z);
+                    _clone.transform.position = new Vector3(_x, 2, _z);
                 }
-                _x += 2f;
+                _x += 4f;
             }
-            _x = 3;
-            _z += 2f;
+            _x = 6;
+            _z += 4f;
         }
     }
 }
