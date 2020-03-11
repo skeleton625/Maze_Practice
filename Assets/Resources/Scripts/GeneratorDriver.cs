@@ -5,11 +5,9 @@ using UnityEngine;
 public class GeneratorDriver : MonoBehaviour
 {
     [SerializeField]
-    private GameObject MazeField;
+    private GameObject MazeField, FinishPoint;
     [SerializeField]
-    private GameObject Block;
-    [SerializeField]
-    private GameObject SlimBlock;
+    private GameObject Block, SlimBlock;
     [SerializeField]
     private GameObject MainCamera;
     [SerializeField]
@@ -67,6 +65,7 @@ public class GeneratorDriver : MonoBehaviour
         {
             MainCamera.SetActive(false);
             Player.SetActive(true);
+            StartCoroutine(UControl.StartTimerCoroutine());
         }
 
     }
@@ -116,5 +115,7 @@ public class GeneratorDriver : MonoBehaviour
         _clone2.name = "SideWall";
         _clone1.transform.position = new Vector3(2, 2, _lastZ - 4f);
         _clone2.transform.position = new Vector3(_lastX - 4f, 2, 2);
+        _clone1 = Instantiate(FinishPoint, CurrentField.transform);
+        _clone1.transform.position = new Vector3(_lastX, 1.5f, _lastZ);
     }
 }
