@@ -116,6 +116,7 @@ public class GeneratorDriver : MonoBehaviour
         _clone1.transform.position = new Vector3(2, 2, _lastZ - 4f);
         _clone2.transform.position = new Vector3(_lastX - 4f, 2, 2);
         _clone1 = Instantiate(FinishPoint, CurrentField.transform);
+        _clone1.name = "FinishPoint";
         _clone1.transform.position = new Vector3(_lastX, 1.5f, _lastZ);
     }
 }
