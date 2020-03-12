@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7298501088087706605}
   - component: {fileID: 1494919859924705521}
   - component: {fileID: 4456330855985861823}
+  - component: {fileID: 6679304851196256559}
   m_Layer: 0
   m_Name: FinishPoint
   m_TagString: Untagged
@@ -88,8 +89,20 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 402577626504613109}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 6
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6679304851196256559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 402577626504613109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a6e7cedd4fd2594c81118a5091a13c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
