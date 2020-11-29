@@ -1,18 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Prims : MonoBehaviour, MazeGenerator
 {
-    private int Rows, Cols;
     private GameObject Block;
     private Transform CurrentField;
     private PrimMaze Pmaze;
 
-    public Prims(int r, int c, GameObject _block, Transform _field, PrimMaze _maze)
+    public Prims(GameObject _block, Transform _field, PrimMaze _maze)
     {
-        Rows = (r % 2) == 1 ? r : r - 1;
-        Cols = (c % 2) == 1 ? c : c - 1;
         Pmaze = _maze;
         Block = _block;
         CurrentField = _field;
@@ -57,7 +53,7 @@ public class Prims : MonoBehaviour, MazeGenerator
             }
         }
 
-        Pmaze.At(Rows - 1, Cols - 1) = 'E';
+        Pmaze.At(Pmaze.Rows - 1, Pmaze.Cols - 1) = 'E';
     }
 
     public void GenerateMaze()
@@ -67,9 +63,9 @@ public class Prims : MonoBehaviour, MazeGenerator
         char[,] _grid = Pmaze.GetMazeMap();
 
         // 생성된 미로 출력
-        for (int i = 0; i < Rows; i++)
+        for (int i = 0; i < Pmaze.Rows; i++)
         {
-            for (int j = 0; j < Cols; j++)
+            for (int j = 0; j < Pmaze.Cols; j++)
             {
                 if (_grid[i, j].Equals('#'))
                 {

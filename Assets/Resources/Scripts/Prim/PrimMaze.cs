@@ -13,7 +13,7 @@ public class PrimMaze : Maze<char, PrimCell>
         }
     }
 
-    public override List<PrimCell> GetNeighbors(PrimCell _cell, bool _wall)
+    public List<PrimCell> GetNeighbors(PrimCell _cell, bool _wall)
     {
         int _nrow, _ncol;
         // 상하좌우 이동 배열

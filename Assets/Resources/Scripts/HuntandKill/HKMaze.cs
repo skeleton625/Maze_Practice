@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class HKMaze : Maze<HKCell, HKCell>
 {
+    protected int[,] offset;
+
     public HKMaze(int _row, int _col)
         : base(_row, _col)
     {
@@ -12,11 +14,13 @@ public class HKMaze : Maze<HKCell, HKCell>
             for(int j = 0; j < Cols; j++)
                 Grid[i, j] = new HKCell(i, j);
         }
+        offset = new int[4, 2] { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
     }
 
-    public override List<HKCell> GetNeighbors(HKCell _cell, bool _wall)
+    public void CalculateDirection(ref int r, ref int c, int dir)
     {
-        throw new System.NotImplementedException();
+        r += offset[dir, 0];
+        c += offset[dir, 1];
     }
 
     public override bool IsMoveable(int r, int c)

@@ -4,20 +4,15 @@ using UnityEngine;
 
 public class HuntandKill : MonoBehaviour, MazeGenerator
 {
-    private int Rows, Cols;
     private GameObject Block;
     private Transform CurrentField;
     private HKMaze Hmaze;
-    private int[,] offset;
 
-    public HuntandKill(int r, int c, GameObject _block, Transform _field, HKMaze _maze)
+    public HuntandKill(GameObject _block, Transform _field, HKMaze _maze)
     {
-        Rows = (r % 2) == 1 ? r : r - 1;
-        Cols = (c % 2) == 1 ? c : c - 1;
         Hmaze = _maze;
         Block = _block;
         CurrentField = _field;
-        offset = new int[4, 2] { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
     }
 
     public void AlgorithmStart()
@@ -38,8 +33,9 @@ public class HuntandKill : MonoBehaviour, MazeGenerator
         while (Hmaze.IsMoveable(_r, _c))
         {
             dir = Random.Range(0, 4);
-            _nr = _r + offset[dir, 0];
-            _nc = _c + offset[dir, 1];
+            _nr = _r;
+            _nc = _c;
+            Hmaze.CalculateDirection(ref _nr, ref _nc, dir);
 
             if (Hmaze.IsValid(_nr, _nc) && !Hmaze.At(_nr, _nc).Visited)
             {
@@ -54,9 +50,9 @@ public class HuntandKill : MonoBehaviour, MazeGenerator
 
     private bool Hunt(ref int _r,ref int _c)
     {
-        for(int i = 0; i < Rows; i++)
+        for(int i = 0; i < Hmaze.Rows; i++)
         {
-            for (int j = 0; j < Cols; j++)
+            for (int j = 0; j < Hmaze.Cols; j++)
             {
                 if(!Hmaze.At(i,j).Visited && Hmaze.IsMoveable(i, j))
                 {
@@ -78,9 +74,9 @@ public class HuntandKill : MonoBehaviour, MazeGenerator
         GameObject _clone = null;
         HKCell[,] _grid = Hmaze.GetMazeMap();
 
-        for(int i = 0; i < Rows; i++)
+        for(int i = 0; i < Hmaze.Rows; i++)
         {
-            for(int j = 0; j < Cols; j++)
+            for(int j = 0; j < Hmaze.Cols; j++)
             {
                 _clone = Instantiate(Block, CurrentField);
                 _clone.transform.position = new Vector3(_x, 2, _z);
