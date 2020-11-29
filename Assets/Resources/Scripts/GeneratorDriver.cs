@@ -46,15 +46,15 @@ public class GeneratorDriver : MonoBehaviour
         {
             case 0:
                 PrimMaze _prim = new PrimMaze(Row, Col);
-                Generator = new Prims(Row, Col, Block, CurrentField.transform, _prim);
+                Generator = new Prims(Block, CurrentField.transform, _prim);
                 break;
             case 1:
                 HKMaze _huntandkill = new HKMaze(Row, Col);
-                Generator = new HuntandKill(Row, Col, SlimBlock, CurrentField.transform, _huntandkill);
+                Generator = new HuntandKill(SlimBlock, CurrentField.transform, _huntandkill);
                 break;
             default:
                 _prim = new PrimMaze(0, 0);
-                Generator = new Prims(0, 0, Block, CurrentField.transform, _prim);
+                Generator = new Prims(Block, CurrentField.transform, _prim);
                 break;
         }
         Generator.AlgorithmStart();
