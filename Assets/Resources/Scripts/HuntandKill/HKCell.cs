@@ -14,6 +14,12 @@
         get => sideWall[index];
         set
         {
+            /* 
+             * 0 -> 1, 
+             * 1 -> 0, 
+             * 2 -> 3.
+             * 3 -> 2
+             */
             switch(index)
             {
                 case 4:

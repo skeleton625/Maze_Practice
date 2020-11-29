@@ -47,8 +47,8 @@ public class HuntandKill : MonoBehaviour, MazeGenerator
                 Hmaze.At(_nr, _nc)[4+dir] = false;
                 _r = _nr;
                 _c = _nc;
+                Hmaze.At(_r, _c).Visited = true;
             }
-            Hmaze.At(_r, _c).Visited = true;
         }
     }
 
@@ -68,6 +68,7 @@ public class HuntandKill : MonoBehaviour, MazeGenerator
                 }
             }
         }
+        /* 모든 공간을 다 방문했을 경우, 종료 */
         return true;
     }
 
