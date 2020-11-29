@@ -4,4 +4,4 @@
 
 생성해보는 프로젝트입니다.
 
-코드는 https://github.com/ian-howell/Mazes를 참조했습니다.
+코드는 https://github.com/ian-howell/Mazes 를 참조했습니다.
